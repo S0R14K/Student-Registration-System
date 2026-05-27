@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}{{ student.full_name() }} - Student Registration System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>{{ student.full_name() }}</h2>
+    <div>
+        <a href="{{ url_for('student_edit', student_id=student.id) }}" class="btn btn-warning">
+            Edit
+        </a>
+        <a href="{{ url_for('student_list') }}" class="btn btn-secondary">
+            Back
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <strong>Student Information</strong>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Student Number:</strong> {{ student.student_number }}
+                </li>
+                <li class="list-group-item">
+                    <strong>First Name:</strong> {{ student.first_name }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Last Name:</strong> {{ student.last_name }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Email:</strong> {{ student.email }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Date of Birth:</strong> {{ student.date_of_birth.strftime('%Y-%m-%d') }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-info text-white">
+                <strong>Enrolled Courses ({{ student.enrollments|length }})</strong>
+            </div>
+            <div class="card-body">
+                {% if student.enrollments %}
+                <table class="table table-sm table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Course Code</th>
+                            <th>Title</th>
+                            <th>Credits</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for enrollment in student.enrollments %}
+                        <tr>
+                            <td>
+                                <a href="{{ url_for('course_detail', course_id=enrollment.course.id) }}">
+                                    {{ enrollment.course.course_code }}
+                                </a>
+                            </td>
+                            <td>{{ enrollment.course.title }}</td>
+                            <td>{{ enrollment.course.credits }}</td>
+                            <td>
+                                <span class="badge
+                                    {% if enrollment.status == 'Active' %}bg-success
+                                    {% elif enrollment.status == 'Completed' %}bg-primary
+                                    {% else %}bg-secondary{% endif %}">
+                                    {{ enrollment.status }}
+                                </span>
+                            </td>
+                            <td>{{ enrollment.registration_date.strftime('%Y-%m-%d') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="text-muted mb-0">This student is not enrolled in any courses.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

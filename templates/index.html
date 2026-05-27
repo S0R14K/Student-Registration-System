@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Student Registration System{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <h1>Student Registration System</h1>
+    <p class="lead text-muted">Manage students, lecturers, courses, and enrollments</p>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-3 col-sm-6">
+        <div class="card text-white bg-primary shadow-sm h-100">
+            <div class="card-body text-center">
+                <h2 class="mt-2">{{ stats.students }}</h2>
+                <p class="card-text">Students</p>
+            </div>
+            <div class="card-footer bg-transparent border-0 text-center">
+                <a href="{{ url_for('student_list') }}" class="text-white">View All</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card text-white bg-success shadow-sm h-100">
+            <div class="card-body text-center">
+                <h2 class="mt-2">{{ stats.lecturers }}</h2>
+                <p class="card-text">Lecturers</p>
+            </div>
+            <div class="card-footer bg-transparent border-0 text-center">
+                <a href="{{ url_for('lecturer_list') }}" class="text-white">View All</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card text-white bg-warning shadow-sm h-100">
+            <div class="card-body text-center">
+                <h2 class="mt-2">{{ stats.courses }}</h2>
+                <p class="card-text">Courses</p>
+            </div>
+            <div class="card-footer bg-transparent border-0 text-center">
+                <a href="{{ url_for('course_list') }}" class="text-white">View All</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card text-white bg-info shadow-sm h-100">
+            <div class="card-body text-center">
+                <h2 class="mt-2">{{ stats.enrollments }}</h2>
+                <p class="card-text">Enrollments</p>
+            </div>
+            <div class="card-footer bg-transparent border-0 text-center">
+                <a href="{{ url_for('enrollment_list') }}" class="text-white">View All</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light"><strong>Quick Actions</strong></div>
+            <div class="list-group list-group-flush">
+                <a href="{{ url_for('student_add') }}" class="list-group-item list-group-item-action">
+                    Add New Student
+                </a>
+                <a href="{{ url_for('lecturer_add') }}" class="list-group-item list-group-item-action">
+                    Add New Lecturer
+                </a>
+                <a href="{{ url_for('course_add') }}" class="list-group-item list-group-item-action">
+                    Add New Course
+                </a>
+                <a href="{{ url_for('enrollment_add') }}" class="list-group-item list-group-item-action">
+                    Register Enrollment
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light"><strong>About This System</strong></div>
+            <div class="card-body">
+                <p>This <strong>Student Registration System</strong> is a university course project
+                   built with Python, Flask, SQLAlchemy, and Bootstrap 5.</p>
+                <p>It supports full CRUD operations for students, lecturers, courses,
+                   and enrollment management with validation and search features.</p>
+                <p class="mb-0 text-muted"><small>Author: Nikoloz Jigania</small></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

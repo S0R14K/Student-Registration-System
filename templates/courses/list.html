@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Courses - Student Registration System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Courses</h2>
+    <a href="{{ url_for('course_add') }}" class="btn btn-primary">
+        Add Course
+    </a>
+</div>
+
+<form method="GET" action="{{ url_for('course_list') }}" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="search" class="form-control"
+               placeholder="Search by course code or title..."
+               value="{{ search }}">
+        <button class="btn btn-outline-secondary" type="submit">
+            Search
+        </button>
+        {% if search %}
+        <a href="{{ url_for('course_list') }}" class="btn btn-outline-danger">
+            Clear
+        </a>
+        {% endif %}
+    </div>
+</form>
+
+{% if courses %}
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Course Code</th>
+                <th>Title</th>
+                <th>Credits</th>
+                <th>Lecturer</th>
+                <th>Enrolled</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ course.course_code }}</td>
+                <td>{{ course.title }}</td>
+                <td>{{ course.credits }}</td>
+                <td>
+                    <a href="{{ url_for('lecturer_detail', lecturer_id=course.lecturer.id) }}">
+                        {{ course.lecturer.full_name() }}
+                    </a>
+                </td>
+                <td>{{ course.enrollments|length }}</td>
+                <td>
+                    <a href="{{ url_for('course_detail', course_id=course.id) }}"
+                       class="btn btn-sm btn-info" title="View">
+                        View
+                    </a>
+                    <a href="{{ url_for('course_edit', course_id=course.id) }}"
+                       class="btn btn-sm btn-warning" title="Edit">
+                        Edit
+                    </a>
+                    <form method="POST" action="{{ url_for('course_delete', course_id=course.id) }}"
+                          class="d-inline" onsubmit="return confirm('Delete this course? All related enrollments will also be deleted.');">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-sm btn-danger" title="Delete">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info">
+    No courses found. <a href="{{ url_for('course_add') }}">Add one now</a>.
+</div>
+{% endif %}
+{% endblock %}

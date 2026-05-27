@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}{{ course.title }} - Student Registration System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>{{ course.title }}</h2>
+    <div>
+        <a href="{{ url_for('course_edit', course_id=course.id) }}" class="btn btn-warning">
+            Edit
+        </a>
+        <a href="{{ url_for('course_list') }}" class="btn btn-secondary">
+            Back
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-warning text-dark">
+                <strong>Course Information</strong>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Course Code:</strong> {{ course.course_code }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Title:</strong> {{ course.title }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Credits:</strong> {{ course.credits }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Lecturer:</strong>
+                    <a href="{{ url_for('lecturer_detail', lecturer_id=course.lecturer.id) }}">
+                        {{ course.lecturer.full_name() }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <strong>Enrolled Students ({{ course.enrollments|length }})</strong>
+            </div>
+            <div class="card-body">
+                {% if course.enrollments %}
+                <table class="table table-sm table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Student Number</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for enrollment in course.enrollments %}
+                        <tr>
+                            <td>
+                                <a href="{{ url_for('student_detail', student_id=enrollment.student.id) }}">
+                                    {{ enrollment.student.student_number }}
+                                </a>
+                            </td>
+                            <td>{{ enrollment.student.full_name() }}</td>
+                            <td>
+                                <span class="badge
+                                    {% if enrollment.status == 'Active' %}bg-success
+                                    {% elif enrollment.status == 'Completed' %}bg-primary
+                                    {% else %}bg-secondary{% endif %}">
+                                    {{ enrollment.status }}
+                                </span>
+                            </td>
+                            <td>{{ enrollment.registration_date.strftime('%Y-%m-%d') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="text-muted mb-0">No students are enrolled in this course.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

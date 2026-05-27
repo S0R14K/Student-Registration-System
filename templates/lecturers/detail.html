@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}{{ lecturer.full_name() }} - Student Registration System{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>{{ lecturer.full_name() }}</h2>
+    <div>
+        <a href="{{ url_for('lecturer_edit', lecturer_id=lecturer.id) }}" class="btn btn-warning">
+            Edit
+        </a>
+        <a href="{{ url_for('lecturer_list') }}" class="btn btn-secondary">
+            Back
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-success text-white">
+                <strong>Lecturer Information</strong>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>Lecturer Number:</strong> {{ lecturer.lecturer_number }}
+                </li>
+                <li class="list-group-item">
+                    <strong>First Name:</strong> {{ lecturer.first_name }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Last Name:</strong> {{ lecturer.last_name }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Email:</strong> {{ lecturer.email }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Department:</strong> {{ lecturer.department }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-warning text-dark">
+                <strong>Courses Taught ({{ lecturer.courses|length }})</strong>
+            </div>
+            <div class="card-body">
+                {% if lecturer.courses %}
+                <table class="table table-sm table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Course Code</th>
+                            <th>Title</th>
+                            <th>Credits</th>
+                            <th>Enrolled</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for course in lecturer.courses %}
+                        <tr>
+                            <td>
+                                <a href="{{ url_for('course_detail', course_id=course.id) }}">
+                                    {{ course.course_code }}
+                                </a>
+                            </td>
+                            <td>{{ course.title }}</td>
+                            <td>{{ course.credits }}</td>
+                            <td>{{ course.enrollments|length }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="text-muted mb-0">This lecturer has no courses assigned.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
