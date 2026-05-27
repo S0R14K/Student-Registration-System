@@ -40,8 +40,6 @@ student_registration_system/
 |-- seed_data.py
 |-- requirements.txt
 |-- README.md
-|-- diagrams/
-|-- screenshots/
 |-- static/
 |   |-- css/
 |   |   `-- style.css
@@ -95,13 +93,6 @@ student_registration_system/
    http://127.0.0.1:5000
    ```
 
-## UML Diagrams and Screenshots
-
-The project includes PNG files in:
-
-- `diagrams/`
-- `screenshots/`
-
 ## Entity Relationships
 
 - Student 1 to many Enrollment
@@ -114,7 +105,7 @@ The project includes PNG files in:
 | --- | --- |
 | 1 | Student, lecturer, and course CRUD |
 | 2 | Enrollment functionality and validation |
-| 3 | Dashboard, search, flash messages, screenshots, diagrams, and UI cleanup |
+| 3 | Dashboard, search, flash messages, and UI cleanup |
 
 ## License
 
